@@ -1,0 +1,188 @@
+---
+title: "Workout 1"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# remove existing objects
+rm(list = ls())
+```
+   
+
+```{r}
+library(dplyr)
+```
+# The introduction
+This report would detailed analyze the points- situation for five players in Golden State Warriors: Stephen Curry, Klay Thompson, Kevin Durant, Graymond Green, and Andre Iguodala. The report tries to state the general rule of player¡¯s behaviors. The data which is used in this report was collected on games of NBA 2016 season. This report would provide clear analysis process and explain how the data support the statement in this report.
+```{r}
+shot_data <- read.csv("C:/Users/89893/Desktop/workout01/data/shots-data.csv", stringsAsFactors = FALSE,) 
+```
+
+# Stephen Curry
+> Stephen Curry is an American professional basketball player for the Golden State Warriors of the National Basketball Association (NBA).A six-time NBA All-Star, he has been named the NBA Most Valuable Player (MVP) twice and won three NBA championships with the Warriors. Many players and analysts have called him the greatest shooter in NBA history.[1] He is credited with revolutionizing the game of basketball by inspiring teams to regularly employ the three-point shot as part of their winning strategy.
+
+from Wikipedia
+
+Stephen Curry is a PG basketball player. PG means **point guard**, whichi is the most speical position in a team. Point guards would could the whole spcae of the team and weven the space of the game. Points guards have to be able to totally understand the plan from the team coach and control the team based on the desigen plan. They have to make sure that right player would get the basketball at the right time. 
+
+```{r}
+# summary the data for Stephen Curry on 2016 season. 
+classes = c('factor','character','integer','integer','integer','integer','character','character','character','integer','factor')
+curry <- read.csv("C:/Users/89893/Desktop/workout01/data/stephen-curry.csv", stringsAsFactors = FALSE,colClasses = classes) 
+curry <- mutate(curry,name = rep("Stephen Curry",length(curry$team_name)))
+curry <- curry %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'n','shot_no'))
+curry <- curry %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'y','shot_yes'))
+curry <- mutate(curry,minute = period *12 - minutes_remaining )
+summary(curry)
+totalshotmade <- sum(curry$shot_made_flag == "shot_yes")/length(curry$name)
+pt2shotmade <- sum(curry$shot_made_flag == "shot_yes"& curry$shot_type == "2PT Field Goal")/sum(curry$shot_type == "2PT Field Goal")
+pt3shotmade <- sum(curry$shot_made_flag == "shot_yes"& curry$shot_type == "3PT Field Goal")/sum(curry$shot_type == "3PT Field Goal")
+totalshotmade
+pt2shotmade
+pt3shotmade
+```
+From the summary of data for curry, The median for shot_distance is 23, and the mean of the shot_distance is 17.99. In addition, curry play in game about 23.44 mins in every game through the whole 2016 season on average. Totla shoot effective rate is 0.4672, the 2 point & 3 point eddecive rate are 0.5399645 and 0.4075691
+
+# Klay Thompson
+> **Klay Alexander Thompson** is an American professional basketball player for the Golden State Warriors of the National Basketball Association (NBA). He is credited as one of the greatest shooters in NBA history.[2][3] He is a five-time NBA All-Star, a two-time All-NBA Third Team honoree, and a three-time NBA champion.
+
+from Wikipedia\
+
+klay thompson is a SG basketball player. SG means **shooting guard**. The crucial task for a shooting guard basketball player is to get the points for the team, and find the opportunity to steal the basterball from the other team on defense. Shooting guard player always master plenty of methods to score and get the point for the team.  
+```{r}
+# get the summary from the data 
+thompson <- read.csv("C:/Users/89893/Desktop/workout01/data/klay-thompson.csv", stringsAsFactors = FALSE,colClasses = classes)
+thompson <- thompson %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'n','shot_no'))
+thompson <- thompson %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'y','shot_yes'))
+thompson <- mutate(thompson,minute = period *12 - minutes_remaining)
+summary(thompson)
+
+totalshotmade <- sum(thompson$shot_made_flag == "shot_yes")/length(thompson$name)
+pt2shotmade <- sum(thompson$shot_made_flag == "shot_yes"& thompson$shot_type == "2PT Field Goal")/sum(thompson$shot_type == "2PT Field Goal")
+pt3shotmade <- sum(thompson$shot_made_flag == "shot_yes"& thompson$shot_type == "3PT Field Goal")/sum(thompson$shot_type == "3PT Field Goal")
+totalshotmade
+pt2shotmade
+pt3shotmade
+```
+From the summary of data for Thompson, The median for shot_distance is 20, and the mean of the shot_distance is 21.91. In addition, thompson play in game about 21.91 mins in every game through the whole 2016 season on average.  The 2 point & 3 point effective rate are 0.5140625 and 0.4241379
+
+# Kevin Durant
+> Kevin Wayne Durant is an American professional basketball player for the Golden State Warriors of the National Basketball Association (NBA). He played one season of college basketball for the University of Texas, and was selected as the second overall pick by the Seattle SuperSonics in the 2007 NBA draft. He played nine seasons in Oklahoma City before signing with Golden State in 2016, winning back-to-back championships in 2017 and 2018.
+
+from Wikipedia\
+
+Durant is a SF basketball player. SF means **small forward**. Small forward is a in-between position. Mostly, SF basketball player is shorter and quicker than PF and C but taller than guard position. SF basketball players also get the points for the team, and they also pass ball to organize the offensve routes.  
+
+```{r}
+durant <- read.csv("C:/Users/89893/Desktop/workout01/data/kevin-durant.csv", stringsAsFactors = FALSE,colClasses = classes)
+durant <- mutate(durant,name = rep("Kevin Durant",length(durant$team_name)))
+durant <- durant %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'n','shot_no'))
+durant <- durant %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'y','shot_yes'))
+durant <- mutate(durant,minute = period *12 - minutes_remaining)
+summary(durant)
+totalshotmade <- sum(durant$shot_made_flag == "shot_yes")/length(durant$name)
+pt2shotmade <- sum(durant$shot_made_flag == "shot_yes"& durant$shot_type == "2PT Field Goal")/sum(durant$shot_type == "2PT Field Goal")
+pt3shotmade <- sum(durant$shot_made_flag == "shot_yes"& durant$shot_type == "3PT Field Goal")/sum(durant$shot_type == "3PT Field Goal")
+totalshotmade
+pt2shotmade
+pt3shotmade
+```
+From the summary of data for durant, The median for shot_distance is 14, and the mean of the shot_distance is 13.12.Compared with two guard player, the avergae shot distance decrease significantly. In addition, durant play in game about 22.25 mins in every game through the whole 2016 season on average.The total shooting effective rate is 0.5409836. The 2 point & 3 point effecive rate are 0.6065319 and 0.3860294
+
+# Graymond Green
+> **Draymond Jamal Green Sr** is an American professional basketball player for the Golden State Warriors of the National Basketball Association (NBA). Green, who plays primarily at the power forward position, is a three-time NBA champion and a three-time NBA All-Star. In 2017, he won the NBA Defensive Player of the Year.
+
+from Wikipedia\
+
+Green is a PF basketball player. PF means **power forward**. Power forward play an important role in defence, the PF players are always stronger and taller. The position for Pf players in a game is near the center of the court. They also help and get the points for the team. 
+```{r}
+green <- read.csv("C:/Users/89893/Desktop/workout01/data/draymond-green.csv", stringsAsFactors = FALSE,colClasses = classes)
+green <- mutate(green,name = rep("Graymond Green",length(green$team_name)))
+green <- green %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'n','shot_no'))
+green <- green %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'y','shot_yes'))
+green <- mutate(green,minute = period *12 - minutes_remaining)
+summary(green)
+totalshotmade <- sum(green$shot_made_flag == "shot_yes")/length(green$name)
+pt2shotmade <- sum(green$shot_made_flag == "shot_yes"& green$shot_type == "2PT Field Goal")/sum(green$shot_type == "2PT Field Goal")
+pt3shotmade <- sum(green$shot_made_flag == "shot_yes"& green$shot_type == "3PT Field Goal")/sum(green$shot_type == "3PT Field Goal")
+totalshotmade
+pt2shotmade
+pt3shotmade
+```
+From the summary of data for green, The median for shot_distance is 6, and the mean of the shot_distance is 5.536.Compared with two guard player, the avergae shot distanc is very short. In addition, green plays in game about 22.39 mins in every game through the whole 2016 season on average.The total shooting effective rate is 0.4238754. The 2 point & 3 point effecive rate are 0.4942197 and 0.3189655. The shooting effective rate also decreases compared with the guard postion players and durant.  
+
+#Andre Iguodala
+> **Andre Tyler Iguodala** is an American professional basketball player for the Golden State Warriors of the National Basketball Association (NBA). The swingman was an NBA All-Star in 2012 and has been named to the NBA All-Defensive Team twice. Iguodala won an NBA championship with the Warriors in 2015, when he was named the NBA Finals Most Valuable Player. Iguodala helped the Warriors win two more championships in 2017 and 2018.
+
+from Wikipedia\
+
+Andre Iguodala is a SG/SF basketball player. As metioned before, he play the role of getting points for the team and pass the ball to complete the offensive route for the whole team. 
+```{r}
+iguodala <- read.csv("C:/Users/89893/Desktop/workout01/data/andre-iguodala.csv", stringsAsFactors = FALSE,colClasses = classes)
+iguodala <- iguodala %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'n','shot_no'))
+iguodala <- iguodala %>% mutate(shot_made_flag = replace(shot_made_flag, shot_made_flag == 'y','shot_yes'))
+iguodala <- mutate(iguodala,minute = period *12 - minutes_remaining)
+summary(iguodala)
+totalshotmade <- sum(iguodala$shot_made_flag == "shot_yes")/length(iguodala$name)
+pt2shotmade <- sum(iguodala$shot_made_flag == "shot_yes"& iguodala$shot_type == "2PT Field Goal")/sum(iguodala$shot_type == "2PT Field Goal")
+pt3shotmade <- sum(iguodala$shot_made_flag == "shot_yes"& iguodala$shot_type == "3PT Field Goal")/sum(iguodala$shot_type == "3PT Field Goal")
+totalshotmade
+pt2shotmade
+pt3shotmade
+```
+
+From the summary of data for iguodala, The median for shot_distance is 18, and the mean of the shot_distance is 13.69. In addition, iguodala plays in game about 25.63 mins in every game through the whole 2016 season on average.The 2 point & 3 point effecive rate are 0.4942197 and 0.3189655.   
+
+
+# Conclusion 
+Based on the previous data analyze process, and the data for individual player. It is clear that player in different position will behave in different rules. All of the guard baskterball players are active in a the position which is far from the center of the court, so their average shot-distance will be longer. For Graymond Green whose position is  PF, he will play the role of defence near the center of the court, so the shot distance of Graymond Green is decrease siginificantly on averge. Four of players play 22mins in every game in 2016 season on average, but iguodala may play more time in every game on avergae. Iguodala may play about 25 minutes in every game.\
+If we compare five players together and get the result of their shooting situation. 
+
+```{r}
+percentage <- arrange(
+  summarise(
+    group_by(shot_data, name),
+    total = length(name),
+    made = sum(shot_made_flag == "shot_yes"),
+    percentage=sum(shot_made_flag == "shot_yes")/length(name)),
+    desc(percentage)
+    
+)
+percentage
+```
+From the data table, Stephen Curry has the most opportunity to shot, and the number of the made shot is largest. However, Kevin Durant has the hightest shooting effective rate. Both of them are in a postition, whose main role is to get the points for the team. The data result also prove this idea.
+
+
+```{r}
+pt2percentage <- arrange(
+  summarise(
+    group_by(shot_data, name),
+    total = sum(shot_type == "2PT Field Goal"),
+    made = sum(shot_made_flag == "shot_yes"& shot_type == "2PT Field Goal"),
+    percentage=sum(shot_made_flag == "shot_yes"& shot_type == "2PT Field Goal")/sum(shot_type == "2PT Field Goal")),
+    desc(percentage)
+    
+)
+pt2percentage
+
+```
+From the data, Addre iguodala may have the highest 2 points shooting effective rate, but the sample size of Addre iguodala is smaller than other player such as Kevin Durant orStephen Curry. Addre iguodala has less opportunities to shot 2 points shot, the total shot of 2 points is only 210, about 1/3 of Kevin Durant. Therefore, it may influence the accuracy of the effective rate. However, this may be also caused by the difference of position of different player. 
+```{r}
+pt3percentage <- arrange(
+  summarise(
+    group_by(shot_data, name),
+    total = sum(shot_type == "3PT Field Goal"),
+    made = sum(shot_made_flag == "shot_yes"& shot_type == "3PT Field Goal"),
+    percentage=sum(shot_made_flag == "shot_yes"& shot_type == "3PT Field Goal")/sum(shot_type == "3PT Field Goal")),
+    desc(percentage)
+    
+)
+
+pt3percentage
+```
+based on the 3 points shoot. Klay Thompson and Stephen Curry have a great grade on 3 points shot data. Stephen Curry gets most opportunity to shoot a 3 points shot. Also, the effective rate is pretty high. This fact from the data also support the difference of the postion. Both of Klay Thompson and Stephen Curry are played in guard postion, whose role is to get the points for the team.   
+
